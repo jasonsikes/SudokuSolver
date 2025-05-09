@@ -1,0 +1,6 @@
+# Java class files
+*.class
+
+# Emacs save files
+*~
+.#* 
