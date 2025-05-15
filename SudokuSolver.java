@@ -32,6 +32,10 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.*;
 
+/**
+ * This is the main class and user interface for the Sudoku Solver.
+ */
+
 public class SudokuSolver {
     private static Boolean isSolved = false;
     private static JButton solveButton;

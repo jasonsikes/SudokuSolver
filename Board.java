@@ -30,6 +30,15 @@
 import java.util.HashSet;
 import java.util.Set;
 
+
+/*
+ * This class represents a Sudoku board with 81 cells.
+ * Each cell contains a set representing the candidates for each space.
+ * When a cell is givan a value, That value is removed from the set of candidates for
+ * all the cells in the same row, column, and 3x3 box.
+ * 
+ * A caveat is that once a cell is given a value, it cannot be changed or removed.
+ */
 public class Board {
     private static final int BOARD_SIZE = 81;
     public  static final int ROW_SIZE = 9;

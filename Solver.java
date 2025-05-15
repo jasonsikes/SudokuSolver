@@ -32,6 +32,10 @@ import java.util.Set;
 public class Solver {
     private final Board board;
     private static int iteration = 0;
+
+    /**
+     * The number of "steps" that the Solver has taken.
+     */
     private static int counter = 0;
 
     /**
@@ -53,40 +57,44 @@ public class Solver {
     /**
      * Attempts to solve the Sudoku puzzle, recursively.
      * @return The solved board, or null if the puzzle is unsolvable
+     * @discussion: This method will modify that board that is passed in.
+     *              If recursion needs to occur, a copy of the board is made
+     *              before the recursive call.
      */
     public Board solve() {
-        // String indent = "  ".repeat(iteration);
-        // Modify the board that is passed in.
+        // First step: Find all the cells that have a single candidate
+        // and set their value to that candidate.
+        // Repeat as long as there are cells that have a single candidate.
         for (int i = 0; i < Board.ROW_SIZE; i++) {
             for (int j = 0; j < Board.COL_SIZE; j++) {
                 Set<Character> candidates = board.getCandidates(i, j);
                 if (candidates.size() == 1) {
                     counter++;
                     board.setValue(i, j, candidates.iterator().next());
-                    // System.out.println(indent + board.toString());
+                    // Every time a cell is given a value, we start over.
                     i = 0;
                     j = 0;
                 }
             }
         }
+        // When we reach here, we have set the value of every cell that has a single candidate.
+        // If there are no empty spaces, we solved it.
         if (board.getEmptySpaces() == 0) {
             return board;
         }
 
+        // Second step: Find the first cell that has multiple candidates.
+        // Try each candidate.
+        // If a candidate solves the puzzle, return the solved board.
+        // If a candidate does not solve the puzzle, try the next candidate.
+        // If all candidates have been tried and no solution is found, return null.
         int myIteration = iteration;
-
-        // All of the locations that have a single candidate have been set.
-        // Find the first location that has multiple candidates.
         for (int i = 0; i < Board.ROW_SIZE; i++) {
             for (int j = 0; j < Board.COL_SIZE; j++) {
                 Set<Character> candidates = board.getCandidates(i, j);
                 if (candidates.size() > 1) {
                     // Try each candidate.
-                    // int candidateIndex = 0;
                     for (char candidate : candidates) {
-                        // candidateIndex++;
-                        // String candidateMessage = indent + "Trying " + candidateIndex + " of " + candidates.size() + " candidates for space " + (i + 1) + "," + (j + 1) + ": " + candidate;
-                        // System.out.println(candidateMessage);
                         counter++;
                         iteration = myIteration + 1;
                         Board copy = board.copy();
